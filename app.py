@@ -2,13 +2,13 @@ import numpy as np
 import pickle
 import streamlit as st
 def cost_prediction(Height,Weight,Age,Smoker):
-  DTRmodel = pickle.load(open('DTRmodel.pkl','rb'))
+  DTRmodell = pickle.load(open('DTRmodel.pkl','rb'))
   bmi = int(Weight/(Height*Height))
   if(Smoker.lower()=='yes'):
     smoker=1
   else:
     smoker=0
-  res = DTRmodel.predict(np.array([[bmi,smoker,Age]]))
+  res = DTRmodell.predict(np.array([[bmi,smoker,Age]]))
   return res
 
 def main():
