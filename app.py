@@ -2,8 +2,14 @@ import numpy as np
 import pickle
 import streamlit as st
 def cost_prediction(Height,Weight,Age,Smoker):
+  r =[0]
+  if((int(Height)==0) or (int(Weight)==0) or (int(Age)==0)):
+    return r
   DTRmodell = pickle.load(open('DTRmodel.pkl','rb'))
-  bmi = int(Weight/(Height*Height))
+  try:
+    bmi = int(Weight/(Height*Height))
+  except:
+      return r
   if(Smoker.lower()=='yes'):
     smoker=1
   else:
@@ -26,7 +32,10 @@ def main():
     result =[0.0]
     if st.button("Predict"):
         result=cost_prediction(Height,Weight,Age,Smoker)
-        st.success('Your cost for basic health insurance would be {} rupees'.format(round(result[0])))
+        if result[0]==0:
+          st.warning('Please enter valid values to know your cost prediction')
+        else:
+          st.success('Your cost for basic health insurance would be {} rupees'.format(round(result[0])))
 
 if __name__ == '__main__':
   main()
